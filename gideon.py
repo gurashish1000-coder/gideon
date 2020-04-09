@@ -94,6 +94,9 @@ if __name__ == '__main__':
             dst = input("path/location to copy the directory and subdirectories to  : ")
             print(extras.copyDir(path, dst))
 
+        # function to test speed using the speed-cli module.
+        elif command == "test speed":
+            extras.testSpeed()
 
         # ///////////////////////////////////////////////////
         # all implemented delete commands below
@@ -124,7 +127,9 @@ if __name__ == '__main__':
             except:
                 print("Make sure the path leads to a file and not a directory")
                 print("If you wanna delete a dir use command |delete dir| ")
-
+        # add conversions stuff maybe
+        #GOOGLE IMAGE DOWNLOADER
+        #MUSIC PLAYER
         # ///////////////////////////////////////////////////
         # all implemented archive related commands below
         # ////////////////////////////////////////////////////

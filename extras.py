@@ -16,6 +16,7 @@ import json
 import youtube_dl
 import asciiArt
 import random
+import speedtest
 from zipfile import ZipFile
 
 # Global variables will be declared here
@@ -323,8 +324,31 @@ def playRps():
 def status():
     return None
 
+# can use shutil.diskUsage method to find the storage and stuff.
+# install pip install speedtest-cli
+def testSpeed():
+    st = speedtest.Speedtest()
+    option = int(input('''What speed do you want to test:   
+    1) Download Speed   
+    2) Upload Speed   
+    3) Ping  
+    Your Choice: '''))
 
-# ----------shutil related function -------------------
+    if option == 1:
+        result = st.download()
+        print("Your download speed is : " + str(int(result / 1000000)) + "mb/s")
+
+    elif option == 2:
+        result = st.upload()
+        print("Your upload speed is : " + str(int(result / 1000000)) + "mb/s")
+    elif option == 3:
+        servernames = []
+        st.get_servers(servernames)
+        print("Your ping is : " + st.results.ping)
+    else:
+        print("Please enter the correct choice !")
+
+    # ----------shutil related function -------------------
 # ----------high level directory and files management --------
 
 # the point of the function is to zip a folder up
@@ -343,4 +367,3 @@ def moveDir(src, dst):
 def copyDir(src, dst):
     return shutil.copytree(src, dst)
 
-# can use shutil.diskUsage method to find the storage and stuff.
