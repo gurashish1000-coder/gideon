@@ -1,23 +1,16 @@
 #!/usr/bin/env python3
 from __future__ import unicode_literals
-from bs4 import BeautifulSoup
 import datetime
 import requests
 import smtplib
-from email.message import EmailMessage
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import time
-from random import randint
 import os
 import shutil
-import subprocess
-import json
-import youtube_dl
+#import youtube_dl
 import asciiArt
 import random
 import speedtest
-from zipfile import ZipFile
 
 # Global variables will be declared here
 stash_folder = ""
@@ -344,7 +337,7 @@ def testSpeed():
     elif option == 3:
         servernames = []
         st.get_servers(servernames)
-        print("Your ping is : " + st.results.ping)
+        print("Your ping is : " + str(st.results.ping))
     else:
         print("Please enter the correct choice !")
 
