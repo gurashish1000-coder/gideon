@@ -1,13 +1,35 @@
 #!/usr/bin/env python3
+from __future__ import unicode_literals
+from bs4 import BeautifulSoup
 import datetime
 import requests
 import smtplib
 from email.message import EmailMessage
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import time
+from random import randint
+import os
+import shutil
 import subprocess
 import json
-import nmap
+import youtube_dl
+import asciiArt
+import random
+from zipfile import ZipFile
+
+# Global variables will be declared here
+stash_folder = ""
+curr_path = ''
+
+
+# intro function: executes the intro
+def intro_func():
+    print('Hello, This is Spock. AI created by Star Fleet.')
+    # prints the star fleet logo
+    asciiArt.starFleet()
+    print("type help for help")
+    print("How may I help you?")
 
 
 # Method to show the current time.
@@ -21,6 +43,8 @@ def showTime():
 I could have made a calculator app from starting but that would have been a wastage of time. So i am 
 going to be using the eval function. 
 """
+
+
 def calculate():
     # Prints out the options
     while True:
@@ -112,10 +136,211 @@ def setTimer():
     print('Timer set')
 
 
-def nmapScaner(address):
-    scanner = nmap.PortScanner()
-    print(scanner.nmap_version)
-    scanner.scan(address, "1-1024", "-v")
-    print(scanner.scaninfo())
-    print(scanner.csv())
-    print("done")
+# Downloads a youtube video
+def videoDownload(link):
+    ydl_opts = {}
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([link])
+
+
+# google news api key 065c7994498f4d8aaa01a0fa4c5106bd
+def topNews():
+    api_key = "065c7994498f4d8aaa01a0fa4c5106bd"
+    base_url = "http://newsapi.org/v2/top-headlines?sources=google-news&apiKey="
+    complete_url = base_url + api_key
+    response = requests.get(complete_url)
+
+    # Converting Json format data into python formatted data
+    news_page = response.json()
+    article = news_page['articles']
+    # Empty list to contain all the important news.
+    results = []
+    for ar in article:
+        results.append(ar["title"])
+
+    for i in range(len(results)):
+        # printing all trending news
+        print(i + 1, results[i])
+
+
+# google news api key 065c7994498f4d8aaa01a0fa4c5106bd
+# The following function provides detailed stuff about the news like summary and stuff.
+# det short for detailed
+def detNews():
+    api_key = "065c7994498f4d8aaa01a0fa4c5106bd"
+    base_url = "http://newsapi.org/v2/top-headlines?sources=google-news&apiKey="
+    complete_url = base_url + api_key
+    response = requests.get(complete_url)
+    counter = 1
+
+    # Converting Json format data into python formatted data
+    news_page = response.json()
+    article = news_page['articles']
+    for ar in article:
+        print('==================================')
+        print(str(counter) + '. ' + ar['title'])
+        print(ar['description'])
+        print(ar['content'])
+        print('URL - ' + ar['url'])
+        print('==================================')
+        counter = counter + 1
+
+
+# I don't watch porn, but if i did i would use this way to disguise all of it in the directories jungle
+def createStashDir():
+    path = os.path.abspath(".")
+    curr_path = path
+    if os.path.isdir(path + "/Videos"):
+        print("Videos folder doesn't exist.")
+        answer = input("Would you like to create the Videos folder (y or n) ? ; ")
+        if answer == "y":
+            os.mkdir(path + "/Videos")
+            try:
+                os.mkdir(path + "/Videos/education")
+                os.mkdir(path + "/Videos/education/maths")
+                os.mkdir(path + "/Videos/education/maths/tuts")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch1")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch2")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch3")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch4")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch5")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch2/ex1")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch2/ex2")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch2/ex3")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch2/ex4")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch2/ex5")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch1/ex1/q1.1")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch1/ex1/q1.2")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch1/ex1/q1.3")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch1/ex2/q1.4")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch1/ex1/q1.5")
+                os.mkdir(path + "/Videos/education/maths/tuts/assignments/ch1/ex1/q1.6")
+
+                stash_folder = path + "/Videos/education/maths/tuts/assignments/ch2/ex4/q1.4"
+            except:
+                print("Something went wrong while creating the stash directory")
+        else:
+            # I didn't know what to do here.
+            print("Alright")
+
+
+# Will clear all the stash mess
+def clearMess(path, type):
+    # /home/gurashish3/Videos
+    if type == 5:
+        shutil.rmtree(path + '/Videos/education')
+        print('Mess cleared')
+    elif type == 1:
+        shutil.rmtree(path)
+        print(path + " has been cleared")
+
+def todo():
+    print('todo')
+
+
+# game
+# function for playing rock paper scissor game.
+def playRps():
+    # variables declared
+    choice_name, choice_name2 = '', ''
+    choice2 = ''
+    player_choice = 0
+
+    while True:
+        # player's turn
+        choice = input("rock, paper or scissor (r,p,s) : ")
+
+        # player_choice is the int representation of r,p,s
+        if choice == 'r':
+            player_choice = 1
+            choice_name = 'rock'
+        elif choice == 'p':
+            player_choice = 2
+            choice_name = 'paper'
+        elif choice == 's':
+            player_choice = 3
+            choice_name = 'scissor'
+
+        # computer's turn
+        comp_turn = random.randint(1, 3)
+
+        if comp_turn == 1:
+            choice2 = 'r'
+            choice_name2 = 'rock'
+        elif comp_turn == 2:
+            choice2 = 'p'
+            choice_name2 = 'paper'
+        elif comp_turn == 3:
+            choice2 = 's'
+            choice_name2 = 'scissor'
+
+        print('Computer chose : ' + choice_name2)
+        asciiArt.rpsArt(choice2)
+        print("V/S")
+        print('User chose : ' + choice_name)
+        asciiArt.rpsArt(choice)
+
+        # condition for winning
+        if ((player_choice == 1 and comp_turn == 2) or
+                (player_choice == 2 and comp_turn == 1)):
+            print("paper wins")
+            result = "paper"
+
+        elif ((player_choice == 1 and comp_turn == 3) or
+              (player_choice == 3 and comp_turn == 1)):
+            print("Rock wins")
+            result = "Rock"
+        # if a draw
+        elif player_choice == comp_turn:
+            print("draw")
+            result = "draw"
+        else:
+            print("scissor wins")
+            result = "scissor"
+
+        # Printing either user or computer wins
+        if result == choice_name:
+            print("<== User wins ==>")
+        elif result == "draw":
+            print("<== No One wins ==>")
+        else:
+            print("<== Computer wins ==>")
+
+        print('')
+        print("Do you want to play again? (Y/N)")
+        ans = input()
+        if ans == 'n' or ans == 'N':
+            break
+
+    print("\nThanks for playing")
+
+    return None
+
+
+# give the status of the enterprise
+# fun function
+def status():
+    return None
+
+
+# ----------shutil related function -------------------
+# ----------high level directory and files management --------
+
+# the point of the function is to zip a folder up
+def zipEmUp(fil_name):
+    output = input("Name of the output : ")
+    shutil.make_archive(output, 'zip', fil_name)
+    return None
+
+
+# moves the directory tree to another location
+def moveDir(src, dst):
+    return shutil.move(src, dst)
+
+
+# need to test
+def copyDir(src, dst):
+    return shutil.copytree(src, dst)
+
+# can use shutil.diskUsage method to find the storage and stuff.
