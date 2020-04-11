@@ -7,10 +7,11 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
 import shutil
-#import youtube_dl
 import asciiArt
 import random
 import speedtest
+from pytube import YouTube
+from pytube import Playlist
 
 # Global variables will be declared here
 stash_folder = ""
@@ -23,10 +24,9 @@ def intro_func():
     # prints the star fleet logo
     asciiArt.starFleet()
     print("type help for help")
-    print("How may I help you?")
 
 
-# Method to show the current time.
+# Method to show the current date and time.
 def showTime():
     now = datetime.datetime.now()
     print("Current date and time : ")
@@ -43,7 +43,7 @@ def calculate():
     # Prints out the options
     while True:
         # either we get expression info or quit
-        mode = input("\nPlease enter your expression:")
+        mode = input("Please enter your expression:")
         if mode == "quit":
             break
         else:
@@ -66,23 +66,12 @@ def showWeather():
     if x["cod"] != "404":
         # store the value of "main" key in variable y
         y = x["main"]
-
-        # store the value corresponding to the "temp" key of y in kelvin
         current_temperature = y["temp"]
         temp_celsius = int(current_temperature - 273.15)
-
-        # store the value corresponding to the "pressure" key of y
         current_pressure = y["pressure"]
-
-        # store the value corresponding to the "humidity" key of y
         current_humidity = y["humidity"]
-
-        # store the value of "weather" key in variable z
         z = x["weather"]
-
-        # store the value corresponding to the "description" key at the 0th index of z
         weather_description = z[0]["description"]
-
         # printing weather info
         print('==================================')
         print('|' "Weather = " + city_name + '|')
@@ -108,7 +97,7 @@ def sendEmail(subject, body, receiver):
     # Open the plain text file whose name is in textfile for reading.
     # Enter your email address and password below.
     email = 'gurashish2000@outlook.com'
-    password = 'Gurashish@3'
+    password = ''
     msg = MIMEMultipart()
     msg['From'] = email
     msg['To'] = receiver
@@ -126,15 +115,85 @@ def sendEmail(subject, body, receiver):
 
 
 # method to start a timer in terminal.
+# todo need to implemement this function
 def setTimer():
     print('Timer set')
 
 
 # Downloads a youtube video
-def videoDownload(link):
-    ydl_opts = {}
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([link])
+def youtubeDownload(link, type):
+    try:
+        yt = YouTube(link)
+
+        # printing all the necessary information about the media.
+        print('==================================')
+        print('|Title           = ' + yt.title)
+        print('==================================')
+        print('|Description     = ' + yt.description)
+        print('==================================')
+        print('|Views           = ' + str(yt.views))
+        print('|Length          = ' + str(yt.length) + ' seconds')
+        print('|Rating          = ' + str(yt.rating))
+        print('|Thumbnail       = ' + yt.thumbnail_url)
+        print('==================================')
+
+        if type == 'video':
+            result_video = yt.streams.get_highest_resolution()
+            try:
+                # downloading the video
+                result_video.download()
+            except:
+                print("Some Error!")
+            print('Video downloading finished')
+
+        # for only downloading the audio
+        elif type == 'audio':
+            result_video = yt.streams.get_audio_only()
+            try:
+                # downloading the video
+                result_video.download()
+            except:
+                print("Some Error!")
+            print('Audio downloading finished')
+    except:
+        print("Connection Error")
+
+
+# Downloads all the videos from a youtube playlist
+def playlistDownload(link, type):
+    try:
+        playlist = Playlist(link)
+        print('Number of videos in playlist: %s' % len(playlist.video_urls))
+        # downloading everything as a video
+        if type == 'video':
+            for i in playlist.video_urls:
+                try:
+                    yt = YouTube(i)
+                    print("Video downloading : " + yt.title)
+                    result_video = yt.streams.get_highest_resolution()
+                    result_video.download()
+                    # print(i)
+                except:
+                    print("Some Error!")
+                    return 0
+            return 1
+
+        # downloading everything as a audio.
+        if type == 'audio':
+            for i in playlist.video_urls:
+                try:
+                    yt = YouTube(i)
+                    print("Video downloading : " + yt.title)
+                    result_video = yt.streams.get_audio_only()
+                    result_video.download()
+                    # print(i)
+                except:
+                    print("Some Error!")
+                    return 0
+            return 1
+    except:
+        print('Connection Error')
+        return 0
 
 
 # google news api key 065c7994498f4d8aaa01a0fa4c5106bd
@@ -155,11 +214,16 @@ def topNews():
     for i in range(len(results)):
         # printing all trending news
         print(i + 1, results[i])
+    return None
 
 
-# google news api key 065c7994498f4d8aaa01a0fa4c5106bd
-# The following function provides detailed stuff about the news like summary and stuff.
-# det short for detailed
+'''
+google news api key 065c7994498f4d8aaa01a0fa4c5106bd
+The following function provides detailed stuff about the news like summary and stuff.
+det short for detailed
+'''
+
+
 def detNews():
     api_key = "065c7994498f4d8aaa01a0fa4c5106bd"
     base_url = "http://newsapi.org/v2/top-headlines?sources=google-news&apiKey="
@@ -178,6 +242,7 @@ def detNews():
         print('URL - ' + ar['url'])
         print('==================================')
         counter = counter + 1
+    return None
 
 
 # I don't watch porn, but if i did i would use this way to disguise all of it in the directories jungle
@@ -219,15 +284,19 @@ def createStashDir():
             print("Alright")
 
 
-# Will clear all the stash mess
+# Will clear all the stash dir mess
 def clearMess(path, type):
     # /home/gurashish3/Videos
     if type == 5:
         shutil.rmtree(path + '/Videos/education')
         print('Mess cleared')
     elif type == 1:
-        shutil.rmtree(path)
-        print(path + " has been cleared")
+        try:
+            shutil.rmtree(path)
+            print(path + " has been cleared")
+        except:
+            print('Something went wrong. Folder might not be there. ')
+
 
 def todo():
     print('todo')
@@ -308,14 +377,15 @@ def playRps():
             break
 
     print("\nThanks for playing")
-
     return None
 
 
 # give the status of the enterprise
 # fun function
+# todo need to do this function
 def status():
     return None
+
 
 # can use shutil.diskUsage method to find the storage and stuff.
 # install pip install speedtest-cli
@@ -337,11 +407,42 @@ def testSpeed():
     elif option == 3:
         servernames = []
         st.get_servers(servernames)
-        print("Your ping is : " + str(st.results.ping))
+        print("Your ping is : " + st.results.ping)
     else:
         print("Please enter the correct choice !")
+    return None
 
-    # ----------shutil related function -------------------
+
+'''
+Gets the geolocation of a ipaddress and other useful info using a ip address
+uses the api service from ipstack.com
+the below api_key is valid for 10000 requests/month.
+'''
+
+
+def geoLocation(ip_address):
+    api_key = 'de115059d356f8d603f3eede0058c5b1'
+    complete_url = 'http://api.ipstack.com/' + ip_address + '?access_key=' + api_key
+    response = requests.get(complete_url)
+    result = response.json()
+    country = result["country_name"]
+    region = result["region_name"]
+    city = result["city"]
+    zip = result["zip"]
+    type = result["type"]
+    call_code = result["location"]["calling_code"]
+    # printing values
+    print('==================================')
+    print('|Location        = ' + (country + ', ' + region + ', ' + city) + '|')
+    print('==================================')
+    print('|zip code        = ' + zip)
+    print('|calling code    = ' + call_code)
+    print('|type            = ' + type)
+    print('==================================')
+    return None
+
+
+# ----------shutil related function -------------------
 # ----------high level directory and files management --------
 
 # the point of the function is to zip a folder up

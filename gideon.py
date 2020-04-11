@@ -4,7 +4,6 @@ import extras
 import asciiArt
 import os
 
-
 """
 Notes: I have decided  not to implement text feature. It was being really annoying. 
 """
@@ -15,7 +14,7 @@ if __name__ == '__main__':
     defaultPath = os.path.abspath(".")
     while True:
         # input should figure out automatically the input type.
-        command = input()
+        command = input('How may I help you : ')
 
         # here the commands will be evaluated.
         if command == 'quit':
@@ -50,12 +49,42 @@ if __name__ == '__main__':
             receiver = input("Enter the E-mail of recipient : ")
             extras.sendEmail(subject, body, receiver)
 
+        # /////////////////////////////////////////////////////////////////////////////////
+        # youtube related functions below.
+        # /////////////////////////////////////////////////////////////////////////////////
         # Download a youtube video.
-        elif command == "download":
-            # download test link https://www.youtube.com/watch?v=BaW_jenozKc
+        elif command == "download youtube":
+            temp = 0
             link = input("Enter the link of the video to download : ")
-            extras.videoDownload(link)
-            print("Downloading is finished ")
+            # link = 'https://www.youtube.com/watch?v=OPGtpO1g_jk'
+            while temp != 1:
+                choice = input("audio or video ? = ")
+                if choice == "audio":
+                    temp = 1
+                    extras.youtubeDownload(link, 'audio')
+                elif choice == "video":
+                    temp = 1
+                    extras.youtubeDownload(link, 'video')
+                else:
+                    print("Please only write audio or video")
+
+        # Download everything in a youtube playlist
+        # link = 'https://www.youtube.com/playlist?list=PLBf0hzazHTGM8V_3OEKhvCM9Xah3qDdIx'
+        elif command == "playlist download":
+            temp = 0
+            link = input("Enter the link of the playlist to download : ")
+            while temp != 1:
+                choice = input("audio or video ? = ")
+                if choice == "audio":
+                    temp = 1
+                    if extras.playlistDownload(link, "audio") == 1:
+                        print('Downloading finished')
+                elif choice == "video":
+                    temp = 1
+                    if extras.playlistDownload(link, "video") == 1:
+                        print('Downloading finished')
+                else:
+                    print("Please only write audio or video")
 
         # Prints all the important news for today. Basically only headlines.
         # Uses my personal api key
@@ -72,13 +101,12 @@ if __name__ == '__main__':
             extras.playRps()
 
         # To show the current status of enterprise.
-        # todo
         elif command == "status":
             extras.status()
 
         # need to test
         # should zip any files or directories mentioned.
-        elif command  == "zip":
+        elif command == "zip":
             name = input("name of the file to zip or directory path : ")
             extras.zipEmUp()
 
@@ -97,10 +125,13 @@ if __name__ == '__main__':
         # function to test speed using the speed-cli module.
         elif command == "test speed":
             extras.testSpeed()
+        elif command == "ip location":
+            ip = input("Enter the ip address to look for : ")
+            extras.geoLocation(ip)
 
         # ///////////////////////////////////////////////////
         # all implemented delete commands below
-        #////////////////////////////////////////////////////
+        # ////////////////////////////////////////////////////
 
         # deletes the saved stash folder
         elif command == "delete stash":
@@ -115,11 +146,11 @@ if __name__ == '__main__':
                 path = input("What directory you want to delete : ")
                 # adds nothing more to the path
                 extras.clearMess(defaultPath, 1)
-            else :
+            else:
                 print('alright')
 
         # delete a file
-        elif command  == "delete":
+        elif command == "delete":
             try:
                 path = input("File path to delete : ")
                 os.remove(path)
@@ -127,23 +158,17 @@ if __name__ == '__main__':
             except:
                 print("Make sure the path leads to a file and not a directory")
                 print("If you wanna delete a dir use command |delete dir| ")
+
         # add conversions stuff maybe
-        #GOOGLE IMAGE DOWNLOADER
-        #MUSIC PLAYER
+        # GOOGLE IMAGE DOWNLOADER
+        # MUSIC PLAYER
         # ///////////////////////////////////////////////////
         # all implemented archive related commands below
         # ////////////////////////////////////////////////////
 
-# to implement or improve upon
-#///////////////////////////////////////////////////////////////////////////////////
-        # Download a youtube audio
-        # doesn't work properly. as far as i know
-        elif command == "download audio":
-            # download test link https://www.youtube.com/watch?v=BaW_jenozKc
-            link = input("Enter the link of the video to download the audio from : ")
-            link = "https://www.youtube.com/watch?v=OPGtpO1g_jk"
-            extras.videoDownload(link)
-            print("Downloading audio is finished ")
+        # to implement or improve upon
+        # ///////////////////////////////////////////////////////////////////////////////////
+
         # A simple python scrapper
         elif command == "stock info":
             print("stock info")
@@ -159,3 +184,5 @@ if __name__ == '__main__':
         # The point of this command will be to send a text message to wife with some excuse.
         elif command == "emergency":
             print("emergency")
+        else:
+            print('I don not understand')

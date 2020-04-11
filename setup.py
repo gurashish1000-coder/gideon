@@ -9,3 +9,4 @@ def install(package):
 # Example
 if __name__ == '__main__':
     install('speedtest-cli')
+    install('pytube3')
