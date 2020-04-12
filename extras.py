@@ -20,7 +20,7 @@ curr_path = ''
 
 # intro function: executes the intro
 def intro_func():
-    print('Hello, This is Spock. AI created by Star Fleet.')
+    print('Hello, This is Gideon. AI created by Star Fleet.')
     # prints the star fleet logo
     asciiArt.starFleet()
     print("type help for help")
@@ -37,8 +37,6 @@ def showTime():
 I could have made a calculator app from starting but that would have been a wastage of time. So i am 
 going to be using the eval function. 
 """
-
-
 def calculate():
     # Prints out the options
     while True:
@@ -222,8 +220,6 @@ google news api key 065c7994498f4d8aaa01a0fa4c5106bd
 The following function provides detailed stuff about the news like summary and stuff.
 det short for detailed
 '''
-
-
 def detNews():
     api_key = "065c7994498f4d8aaa01a0fa4c5106bd"
     base_url = "http://newsapi.org/v2/top-headlines?sources=google-news&apiKey="
@@ -297,7 +293,7 @@ def clearMess(path, type):
         except:
             print('Something went wrong. Folder might not be there. ')
 
-
+# todo implement this feature
 def todo():
     print('todo')
 
@@ -418,8 +414,6 @@ Gets the geolocation of a ipaddress and other useful info using a ip address
 uses the api service from ipstack.com
 the below api_key is valid for 10000 requests/month.
 '''
-
-
 def geoLocation(ip_address):
     api_key = 'de115059d356f8d603f3eede0058c5b1'
     complete_url = 'http://api.ipstack.com/' + ip_address + '?access_key=' + api_key

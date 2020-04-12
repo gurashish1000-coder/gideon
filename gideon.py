@@ -26,8 +26,8 @@ if __name__ == '__main__':
         if command == 'setup':
             extras.createStashDir()
 
-        # need to re-look and see if it works.
-        if command == 'reset':
+        # clears the directory tree made by setup command
+        if command == 'clear stash':
             extras.clearMess()
 
         # calculate stuff
@@ -52,6 +52,7 @@ if __name__ == '__main__':
         # /////////////////////////////////////////////////////////////////////////////////
         # youtube related functions below.
         # /////////////////////////////////////////////////////////////////////////////////
+
         # Download a youtube video.
         elif command == "download youtube":
             temp = 0
@@ -84,7 +85,7 @@ if __name__ == '__main__':
                     if extras.playlistDownload(link, "video") == 1:
                         print('Downloading finished')
                 else:
-                    print("Please only write audio or video")
+                    print("Please only write 'audio' or 'video'")
 
         # Prints all the important news for today. Basically only headlines.
         # Uses my personal api key
@@ -159,6 +160,7 @@ if __name__ == '__main__':
                 print("Make sure the path leads to a file and not a directory")
                 print("If you wanna delete a dir use command |delete dir| ")
 
+        # todo in future
         # add conversions stuff maybe
         # GOOGLE IMAGE DOWNLOADER
         # MUSIC PLAYER
