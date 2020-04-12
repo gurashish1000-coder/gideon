@@ -43,7 +43,7 @@ The aim is to make a terminal application that can manage variety of tasks for t
 - Now run the gideon.py (like - `python3 gideon.py`)
 - It should look like below. 
 
-<img src="images/postman.PNG"  >	
+<img src="images/start.PNG"  >	
 
 ## Features to Implement
 
