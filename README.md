@@ -8,7 +8,7 @@ The aim is to make a terminal application that can manage variety of tasks for t
 
 - Send Emails- Send emails without getting out of terminal.
 - YouTube downloader - Gideon downloads any video that you want from YouTube. You can also download the video as just an audio, and you can also download whole playlists on youtube both as video or audio.
-- Internet Speed Test - Ask gideo to test download, upload and ping of your connected network.
+- Internet Speed Test - Ask gideon to test download, upload and ping of your connected network.
 - Geolocation finder- Ask Gideon to locate any ip address. 
 - Weather - Ask Gideon to show the current weather of your city.
 - Time - Shows the current date and time.
