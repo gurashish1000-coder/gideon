@@ -10,6 +10,7 @@ import shutil
 import asciiArt
 import random
 import speedtest
+import csv
 from pytube import YouTube
 from pytube import Playlist
 
@@ -17,13 +18,54 @@ from pytube import Playlist
 stash_folder = ""
 curr_path = ''
 
+# setting up user info
+def create_setup():
+    name = input('what is your name captain : ')
+    age = input('your age, captain? : ')
+    email = input('your email address (not g-mail), captain? :')
+    password = input('your password for the email address, captain? : ')
+    # field names
+    fields = ['name', 'age', 'email', 'password']
+    mydict = [{'name': name, 'age': age, 'email': email, 'password': password}]
+    # writing to csv file
+    with open('user.info', 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(mydict)
+    return None
+
+# loaded the user info from the file user.info
+def load_setup():
+    with open('user.info') as file:
+        reader = csv.DictReader(file)
+        data = list(reader)
+        return data[0]
 
 # intro function: executes the intro
 def intro_func():
-    print('Hello, This is Gideon. AI created by Star Fleet.')
+
     # prints the star fleet logo
     asciiArt.starFleet()
     print("type help for help")
+
+# displays all the commands and their use
+def help():
+    print("Commands: ")
+    print("     calculate           : Handy calculator")
+    print("     time                : shows time and date")
+    print("     weather             : shows the weather of the current city")
+    print("     email               : send email from terminal")
+    print("     download youtube    : download youtube videos from youtube")
+    print("     playlist download   : download playlist form youtube")
+    print("     top news            : shows the top 10 news headlines")
+    print("     det news            : shows all the important news headlines")
+    print("     rps                 : play a game of rock, paper and scissor")
+    print("     status              : shows the info about system")
+    print("     zip                 : zips a file or directory")
+    print("     copy dir            : copies whole dir tree to another location")
+    print("     move dir            : moves the whole dir tree to another location")
+    print("     test speed          : tests the current speed of your network")
+    print("     ip location         : finds the registered ip location of a device")
 
 
 # Method to show the current date and time.
@@ -91,11 +133,11 @@ would need  to implement further convenient changes, but will do that later.
 '''
 
 
-def sendEmail(subject, body, receiver):
+def sendEmail(sender_email, sender_password , subject, body, receiver):
     # Open the plain text file whose name is in textfile for reading.
     # Enter your email address and password below.
-    email = 'gurashish2000@outlook.com'
-    password = ''
+    email = sender_email
+    password = sender_password
     msg = MIMEMultipart()
     msg['From'] = email
     msg['To'] = receiver
@@ -454,4 +496,5 @@ def moveDir(src, dst):
 # need to test
 def copyDir(src, dst):
     return shutil.copytree(src, dst)
+
 

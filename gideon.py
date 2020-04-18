@@ -3,15 +3,29 @@
 import extras
 import asciiArt
 import os
+from os import path
 
 """
 Notes: I have decided  not to implement text feature. It was being really annoying. 
 """
 if __name__ == '__main__':
+    # global variable
+    global user_dict
     # service.py executed as script
     # do something
     extras.intro_func()
     defaultPath = os.path.abspath(".")
+    # checking if the user.info exists
+    if path.exists('user.info') != True:
+        print('Hello, This is Gideon. AI created by Star Fleet.')
+        print('Before we continue we need to create a setup for you.')
+        extras.create_setup()
+        user_dict = extras.load_setup()
+    else:
+        # making user dict global
+        user_dict = extras.load_setup()
+        print('Welcome back ' + user_dict['name'])
+
     while True:
         # input should figure out automatically the input type.
         command = input('How may I help you : ')
@@ -20,14 +34,18 @@ if __name__ == '__main__':
         if command == 'quit':
             break
 
+        # prints all the commands and their info
+        elif command == "help":
+            extras.help()
+
         # Temporary setup
         # Creating a secret folder for stash
         # Part of the directory management feature
-        if command == 'setup':
+        elif command == 'setup':
             extras.createStashDir()
 
         # clears the directory tree made by setup command
-        if command == 'clear stash':
+        elif command == 'clear stash':
             extras.clearMess()
 
         # calculate stuff
@@ -44,14 +62,16 @@ if __name__ == '__main__':
 
         # sends an email through an outlook email address
         elif command == "email":
-            subject = input("Enter the subject of E-mail : ")
-            body = input("Enter the body of E-mail : ")
-            receiver = input("Enter the E-mail of recipient : ")
-            extras.sendEmail(subject, body, receiver)
-
-        # /////////////////////////////////////////////////////////////////////////////////
-        # youtube related functions below.
-        # /////////////////////////////////////////////////////////////////////////////////
+            sender_email = user_dict['email']
+            sender_password = user_dict['password']
+            try:
+                subject = input("Enter the subject of E-mail : ")
+                body = input("Enter the body of E-mail : ")
+                receiver = input("Enter the E-mail of recipient : ")
+                extras.sendEmail(sender_email, sender_password, subject, body, receiver)
+            except:
+                print('Something went wrong. Please make sure that sender email is correct.')
+                print('If the problem keeps o persisting. PLease make sure your email address and password is correct.')
 
         # Download a youtube video.
         elif command == "download youtube":
@@ -161,30 +181,20 @@ if __name__ == '__main__':
                 print("If you wanna delete a dir use command |delete dir| ")
 
         # todo in future
-        # add conversions stuff maybe
-        # GOOGLE IMAGE DOWNLOADER
-        # MUSIC PLAYER
-        # ///////////////////////////////////////////////////
-        # all implemented archive related commands below
-        # ////////////////////////////////////////////////////
-
-        # to implement or improve upon
-        # ///////////////////////////////////////////////////////////////////////////////////
-
-        # A simple python scrapper
+        # A simple python stock scrapper
         elif command == "stock info":
             print("stock info")
-        # gotta implement namp feature here
+
+        # todo implement namp feature here
         # nmap will have to wait for now.
         elif command == "defense":
             address = input("ip address to scan : ")
             print("Starting Scan")
             # print("nmap time ")
-        # gotta implement namp feature here
-        elif command == "help":
-            print("help time")
+
         # The point of this command will be to send a text message to wife with some excuse.
         elif command == "emergency":
             print("emergency")
+
         else:
             print('I don not understand')
