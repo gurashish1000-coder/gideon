@@ -48,6 +48,11 @@ if __name__ == '__main__':
         elif command == 'clear stash':
             extras.clearMess()
 
+        # generates a strong password.
+        elif command == 'generate password':
+            length = int(input('What length do you want the password to be ? : '))
+            extras.gen_password(length)
+
         # calculate stuff
         elif command == "calculate":
             extras.calculate()

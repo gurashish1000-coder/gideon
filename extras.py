@@ -11,6 +11,8 @@ import asciiArt
 import random
 import speedtest
 import csv
+import string
+import secrets
 from pytube import YouTube
 from pytube import Playlist
 
@@ -477,6 +479,21 @@ def geoLocation(ip_address):
     print('==================================')
     return None
 
+# function to generate a strong password
+def gen_password(length):
+    if length < 12:
+        print('For a strong password chose a password with length more than 11')
+    else :
+
+        alphabet = string.ascii_letters + string.digits
+        password = ''.join(secrets.choice(alphabet) for i in range(length))
+        while True:
+            password = ''.join(secrets.choice(alphabet) for i in range(length))
+            if (any(c.islower() for c in password)
+                    and any(c.isupper() for c in password)
+                    and sum(c.isdigit() for c in password) >= 3):
+                break
+        print('Generated Password : ' + password)
 
 # ----------shutil related function -------------------
 # ----------high level directory and files management --------
