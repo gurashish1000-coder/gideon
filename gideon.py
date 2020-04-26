@@ -4,6 +4,7 @@ import extras
 import asciiArt
 import os
 from os import path
+from Crypto.Random import get_random_bytes
 
 """
 Notes: I have decided  not to implement text feature. It was being really annoying. 
@@ -11,8 +12,7 @@ Notes: I have decided  not to implement text feature. It was being really annoyi
 if __name__ == '__main__':
     # global variable
     global user_dict
-    # service.py executed as script
-    # do something
+
     extras.intro_func()
     defaultPath = os.path.abspath(".")
     # checking if the user.info exists
@@ -53,6 +53,11 @@ if __name__ == '__main__':
             length = int(input('What length do you want the password to be ? : '))
             extras.gen_password(length)
 
+        # password manager
+        elif command == 'manage paswords':
+            print('Password manager started')
+            extras.manage_passwords()
+
         # calculate stuff
         elif command == "calculate":
             extras.calculate()
@@ -79,38 +84,30 @@ if __name__ == '__main__':
                 print('If the problem keeps o persisting. PLease make sure your email address and password is correct.')
 
         # Download a youtube video.
+        # link = 'https://www.youtube.com/watch?v=OPGtpO1g_jk'
         elif command == "download youtube":
-            temp = 0
             link = input("Enter the link of the video to download : ")
-            # link = 'https://www.youtube.com/watch?v=OPGtpO1g_jk'
-            while temp != 1:
+            while True:
                 choice = input("audio or video ? = ")
-                if choice == "audio":
-                    temp = 1
-                    extras.youtubeDownload(link, 'audio')
-                elif choice == "video":
-                    temp = 1
-                    extras.youtubeDownload(link, 'video')
-                else:
+                if choice == 'audio' or choice == 'video':
+                    break;
+                else :
                     print("Please only write audio or video")
+            video = extras.youtube(link, choice)
+            video.youtubeDownload()
 
         # Download everything in a youtube playlist
         # link = 'https://www.youtube.com/playlist?list=PLBf0hzazHTGM8V_3OEKhvCM9Xah3qDdIx'
-        elif command == "playlist download":
-            temp = 0
+        elif command == "download playlist":
             link = input("Enter the link of the playlist to download : ")
-            while temp != 1:
+            while True:
                 choice = input("audio or video ? = ")
-                if choice == "audio":
-                    temp = 1
-                    if extras.playlistDownload(link, "audio") == 1:
-                        print('Downloading finished')
-                elif choice == "video":
-                    temp = 1
-                    if extras.playlistDownload(link, "video") == 1:
-                        print('Downloading finished')
-                else:
-                    print("Please only write 'audio' or 'video'")
+                if choice == 'audio' or choice == 'video':
+                    break;
+                else :
+                    print("Please only write audio or video")
+            playlist = extras.youtube(link, choice)
+            playlist.playlistDownload()
 
         # Prints all the important news for today. Basically only headlines.
         # Uses my personal api key
@@ -151,9 +148,36 @@ if __name__ == '__main__':
         # function to test speed using the speed-cli module.
         elif command == "test speed":
             extras.testSpeed()
+
+        # gets the registered ip location of a device.
         elif command == "ip location":
             ip = input("Enter the ip address to look for : ")
             extras.geoLocation(ip)
+
+        elif command == 'test':
+            key = get_random_bytes(32)
+            file = input('key ? : ')
+            # print(type(file))
+            print(type(file.encode()))
+
+        elif command == "encrypt file":
+            # generate a key
+            file = input('File to encrypt ? : ')
+            key = get_random_bytes(32)
+            enc = extras.Encryptor(key)
+            clear = lambda: os.system('clear')
+            enc.encrypt_file(file)
+            print("FILE ENCRYPTED : " + file + '.enc')
+            print('KEY : ' + str(key))
+            print('THIS KWY IS REQUIRED TO DECRYPT THE FILE. KEEP IT SAFE')
+
+        elif command == "decrypt file":
+            file = str(input('File to decrypt ? : '))
+            key = input('Please enter the key : ').encode("raw_unicode_escape")
+            print(key)
+            enc = extras.Encryptor(key)
+            enc.decrypt_file(file)
+            print("FILE DECRYPTED: " + file.slip('.enc'))
 
         # ///////////////////////////////////////////////////
         # all implemented delete commands below
@@ -184,22 +208,6 @@ if __name__ == '__main__':
             except:
                 print("Make sure the path leads to a file and not a directory")
                 print("If you wanna delete a dir use command |delete dir| ")
-
-        # todo in future
-        # A simple python stock scrapper
-        elif command == "stock info":
-            print("stock info")
-
-        # todo implement namp feature here
-        # nmap will have to wait for now.
-        elif command == "defense":
-            address = input("ip address to scan : ")
-            print("Starting Scan")
-            # print("nmap time ")
-
-        # The point of this command will be to send a text message to wife with some excuse.
-        elif command == "emergency":
-            print("emergency")
 
         else:
             print('I don not understand')
