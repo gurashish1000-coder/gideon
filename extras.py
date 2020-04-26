@@ -13,6 +13,14 @@ import speedtest
 import csv
 import string
 import secrets
+from Crypto import Random
+from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+import os
+import os.path
+from os import listdir
+from os.path import isfile, join
+import time
 from pytube import YouTube
 from pytube import Playlist
 
@@ -161,14 +169,15 @@ def sendEmail(sender_email, sender_password , subject, body, receiver):
 def setTimer():
     print('Timer set')
 
+# class youtube. Creates a youtube object.
+class youtube:
+    def __init__(self, link, type):
+        self.link = link
+        self.type = type
 
-# Downloads a youtube video
-def youtubeDownload(link, type):
-    try:
-        yt = YouTube(link)
-
-        # printing all the necessary information about the media.
-        print('==================================')
+    # Prints the necessary information about the video
+    def print_info(self, yt):
+        print('=================================================================================')
         print('|Title           = ' + yt.title)
         print('==================================')
         print('|Description     = ' + yt.description)
@@ -177,66 +186,72 @@ def youtubeDownload(link, type):
         print('|Length          = ' + str(yt.length) + ' seconds')
         print('|Rating          = ' + str(yt.rating))
         print('|Thumbnail       = ' + yt.thumbnail_url)
-        print('==================================')
+        print('===================================================================================')
 
-        if type == 'video':
-            result_video = yt.streams.get_highest_resolution()
-            try:
-                # downloading the video
-                result_video.download()
-            except:
-                print("Some Error!")
-            print('Video downloading finished')
+    # Downloads a youtube video
+    def youtubeDownload(self):
+        try:
+            yt = YouTube(self.link)
+            self.print_info(yt)
 
-        # for only downloading the audio
-        elif type == 'audio':
-            result_video = yt.streams.get_audio_only()
-            try:
-                # downloading the video
-                result_video.download()
-            except:
-                print("Some Error!")
-            print('Audio downloading finished')
-    except:
-        print("Connection Error")
-
-
-# Downloads all the videos from a youtube playlist
-def playlistDownload(link, type):
-    try:
-        playlist = Playlist(link)
-        print('Number of videos in playlist: %s' % len(playlist.video_urls))
-        # downloading everything as a video
-        if type == 'video':
-            for i in playlist.video_urls:
+            if self.type == 'video':
+                result_video = yt.streams.get_highest_resolution()
                 try:
-                    yt = YouTube(i)
-                    print("Video downloading : " + yt.title)
-                    result_video = yt.streams.get_highest_resolution()
+                    # downloading the video
                     result_video.download()
-                    # print(i)
                 except:
                     print("Some Error!")
-                    return 0
-            return 1
+                print('Video downloading finished')
 
-        # downloading everything as a audio.
-        if type == 'audio':
-            for i in playlist.video_urls:
+            # for only downloading the audio
+            elif self.type == 'audio':
+                result_video = yt.streams.get_audio_only()
                 try:
-                    yt = YouTube(i)
-                    print("Video downloading : " + yt.title)
-                    result_video = yt.streams.get_audio_only()
+                    # downloading the video
                     result_video.download()
-                    # print(i)
                 except:
                     print("Some Error!")
-                    return 0
-            return 1
-    except:
-        print('Connection Error')
-        return 0
+                print('Audio downloading finished')
+        except:
+            print("Connection Error")
 
+    # Downloads all the videos from a youtube playlist
+    def playlistDownload(self):
+        try:
+            playlist = Playlist(self.link)
+            print('Number of videos in playlist: %s' % len(playlist.video_urls))
+            # downloading everything as a video
+            if self.type == 'video':
+                for i in playlist.video_urls:
+                    try:
+                        yt = YouTube(i)
+                        print("Video downloading : " + yt.title)
+                        self.print_info(yt)
+                        result_video = yt.streams.get_highest_resolution()
+                        result_video.download()
+                        # print(i)
+                    except:
+                        print("Some Error!")
+                        return 0
+                return 1
+
+            # downloading everything as a audio.
+            if self.type == 'audio':
+                for i in playlist.video_urls:
+                    try:
+                        yt = YouTube(i)
+                        print("Video downloading : " + yt.title)
+                        self.print_info(yt)
+                        result_video = yt.streams.get_audio_only()
+                        result_video.download()
+                        # print(i)
+                    except:
+                        print("Some Error!")
+                        return 0
+                return 1
+        except:
+            print('Connection Error')
+            return 0
 
 # google news api key 065c7994498f4d8aaa01a0fa4c5106bd
 def topNews():
