@@ -15,6 +15,7 @@ if __name__ == '__main__':
 
     extras.intro_func()
     defaultPath = os.path.abspath(".")
+
     # checking if the user.info exists
     if path.exists('user.info') != True:
         print('Hello, This is Gideon. AI created by Star Fleet.')
@@ -160,24 +161,13 @@ if __name__ == '__main__':
             # print(type(file))
             print(type(file.encode()))
 
-        elif command == "encrypt file":
-            # generate a key
-            file = input('File to encrypt ? : ')
-            key = get_random_bytes(32)
-            enc = extras.Encryptor(key)
-            clear = lambda: os.system('clear')
-            enc.encrypt_file(file)
-            print("FILE ENCRYPTED : " + file + '.enc')
-            print('KEY : ' + str(key))
-            print('THIS KWY IS REQUIRED TO DECRYPT THE FILE. KEEP IT SAFE')
+        # gets links
+        elif command == "get links":
+            extras.get_links()
 
-        elif command == "decrypt file":
-            file = str(input('File to decrypt ? : '))
-            key = input('Please enter the key : ').encode("raw_unicode_escape")
-            print(key)
-            enc = extras.Encryptor(key)
-            enc.decrypt_file(file)
-            print("FILE DECRYPTED: " + file.slip('.enc'))
+        # gets the os info
+        elif command == "os info":
+            extras.get_os_info()
 
         # ///////////////////////////////////////////////////
         # all implemented delete commands below
