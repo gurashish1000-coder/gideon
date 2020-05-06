@@ -14,6 +14,8 @@ The aim is to make a terminal application that can manage variety of tasks for t
 - Weather - Ask Gideon to show the current weather of your city.
 - Time - Shows the current date and time.
 - Directory management - Gideon handles the complexity of directory management for you.
+- OS info - Displays the underlying OS info. 
+- generate password - Genertaes a strong randomized password of required length.
 - Play rock, paper, scissor - play a graphic version of rock, paper and scissor directly in linux terminal. 
 - Ascii Art - I have incorporated some ascii art,  to make app look and feel better. 
 
