@@ -161,10 +161,6 @@ if __name__ == '__main__':
             # print(type(file))
             print(type(file.encode()))
 
-        # gets links
-        elif command == "get links":
-            extras.get_links()
-
         # gets the os info
         elif command == "os info":
             extras.get_os_info()

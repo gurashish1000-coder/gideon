@@ -5,8 +5,6 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
-from urllib.error import HTTPError
-from urllib.error import URLError
 import shutil
 import asciiArt
 import random
@@ -19,7 +17,7 @@ from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 import os
 import os.path
-from bs4 import BeautifulSoup
+
 import requests
 from pytube import YouTube
 from pytube import Playlist
@@ -514,23 +512,6 @@ def gen_password(length):
                 break
         print('Generated Password : ' + password)
 
-# a web-scrapper to scrap all the links from a web-page.
-def get_links(url):
-    try:
-        page = requests.get(url)
-    except HTTPError as e:
-        print(e)
-    except URLError:
-        print("Server down or incorrect domain")
-    else:
-        data = page.text
-        soup = BeautifulSoup(data, features="html5lib")
-        print('------------------------------LINKS START HERE------------------------------')
-        for link in soup.find_all('a'):
-            st = link.get('href')
-            if str(st).startswith("https"):
-                print(st)
-        print('-------------------------------LINKS END HERE-------------------------------')
 
 # ----------shutil related function -------------------
 # ----------high level directory and files management --------
@@ -572,7 +553,7 @@ def get_os_info():
     ]
     for i in profile:
         if hasattr(pl, i):
-            print('==============================================================================')
+            print('=============================================================')
             print('|'+ i + ' = ' + str(getattr(pl, i)()))
-    print('==============================================================================')
+    print('=============================================================')
     print('\n')
