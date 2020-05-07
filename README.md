@@ -1,6 +1,6 @@
 # Gideon
 
-It's an AI assistant application for your linux terminal built using python scripting. 
+It's a virtual assistant application for your linux terminal built using python scripting. 
 
 The aim is to make a terminal application that can manage variety of tasks for the user. Being able to accomplish tasks faster without getting into complex working of linux commands, also makes you look cooler while doing it. 
 
