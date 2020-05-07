@@ -10,3 +10,5 @@ def install(package):
 if __name__ == '__main__':
     install('speedtest-cli')
     install('pytube3')
+    install('pycryptodome')
+    install('requests')
