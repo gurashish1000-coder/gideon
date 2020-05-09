@@ -12,3 +12,5 @@ if __name__ == '__main__':
     install('pytube3')
     install('pycryptodome')
     install('requests')
+    install('pygame')
+    

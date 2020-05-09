@@ -12,12 +12,9 @@ import speedtest
 import csv
 import string
 import secrets
-from Crypto import Random
-from Crypto.Cipher import AES
-from Crypto.Random import get_random_bytes
 import os
 import os.path
-
+import pygame
 import requests
 from pytube import YouTube
 from pytube import Playlist
@@ -165,11 +162,6 @@ def sendEmail(sender_email, sender_password , subject, body, receiver):
     server.quit()
     print('email sent')
 
-
-# method to start a timer in terminal.
-# todo need to implemement this function
-def setTimer():
-    print('Timer set')
 
 # class youtube. Creates a youtube object.
 class youtube:
@@ -354,11 +346,6 @@ def clearMess(path, type):
         except:
             print('Something went wrong. Folder might not be there. ')
 
-# todo implement this feature
-def todo():
-    print('todo')
-
-
 # game
 # function for playing rock paper scissor game.
 def playRps():
@@ -435,14 +422,6 @@ def playRps():
 
     print("\nThanks for playing")
     return None
-
-
-# give the status of the enterprise
-# fun function
-# todo need to do this function
-def status():
-    return None
-
 
 # can use shutil.diskUsage method to find the storage and stuff.
 # install pip install speedtest-cli
@@ -532,8 +511,10 @@ def moveDir(src, dst):
 def copyDir(src, dst):
     return shutil.copytree(src, dst)
 
+#----------------------------------------------------------------
+
 # should prin the os sys info
-def get_os_info():
+def getOsInfo():
     asciiArt.shipEnterprise()
     profile = [
         'architecture',
@@ -557,3 +538,15 @@ def get_os_info():
             print('|'+ i + ' = ' + str(getattr(pl, i)()))
     print('=============================================================')
     print('\n')
+
+# Plays the provided sound file
+def playSound():
+    # Plays music in the background.
+    path = input('Path of the sound file : ')
+    pygame.mixer.init()
+    pygame.mixer.music.load(path)
+    pygame.mixer.music.play()
+
+# stops the sound playback
+def stopSound():
+    pygame.mixer.music.stop()

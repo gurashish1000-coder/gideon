@@ -54,11 +54,6 @@ if __name__ == '__main__':
             length = int(input('What length do you want the password to be ? : '))
             extras.gen_password(length)
 
-        # password manager
-        elif command == 'manage paswords':
-            print('Password manager started')
-            extras.manage_passwords()
-
         # calculate stuff
         elif command == "calculate":
             extras.calculate()
@@ -85,7 +80,6 @@ if __name__ == '__main__':
                 print('If the problem keeps o persisting. PLease make sure your email address and password is correct.')
 
         # Download a youtube video.
-        # link = 'https://www.youtube.com/watch?v=OPGtpO1g_jk'
         elif command == "download youtube":
             link = input("Enter the link of the video to download : ")
             while True:
@@ -98,7 +92,6 @@ if __name__ == '__main__':
             video.youtubeDownload()
 
         # Download everything in a youtube playlist
-        # link = 'https://www.youtube.com/playlist?list=PLBf0hzazHTGM8V_3OEKhvCM9Xah3qDdIx'
         elif command == "download playlist":
             link = input("Enter the link of the playlist to download : ")
             while True:
@@ -123,10 +116,6 @@ if __name__ == '__main__':
         # playing rock paper scissor with computer.
         elif command == "rps":
             extras.playRps()
-
-        # To show the current status of enterprise.
-        elif command == "status":
-            extras.status()
 
         # need to test
         # should zip any files or directories mentioned.
@@ -155,15 +144,16 @@ if __name__ == '__main__':
             ip = input("Enter the ip address to look for : ")
             extras.geoLocation(ip)
 
-        elif command == 'test':
-            key = get_random_bytes(32)
-            file = input('key ? : ')
-            # print(type(file))
-            print(type(file.encode()))
-
         # gets the os info
         elif command == "os info":
-            extras.get_os_info()
+            extras.getOsInfo()
+
+        # plays sound of the required path
+        elif command == "play sound":
+            extras.playSound()
+
+        elif command == "stop sound":
+            extras.stopSound()
 
         # ///////////////////////////////////////////////////
         # all implemented delete commands below
